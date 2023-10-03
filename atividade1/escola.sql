@@ -10,11 +10,14 @@ ALTER TABLE turma ADD nomeDisciplina INT; /*adiciona uma nova coluna*/
 
 /*DROP TABLE professor;
 DROP TABLE aluno;
-DROP TABLE turma;*/
+DROP TABLE turma;
+DROP TABLE professor;
+ALTER TABLE aluno DROP column semestre;*/
+
 
 CREATE TABLE professor (
     nome VARCHAR(45),
-    unidade INT UNIQUE,
+    unidade VARCHAR(50),
     matricula INT PRIMARY KEY auto_increment
 );
 
@@ -22,8 +25,7 @@ CREATE TABLE aluno (
     numeroAluno INT PRIMARY KEY auto_increment,
     nome VARCHAR(45),
     ano INT,
-    semestre INT,
-    UNIQUE (ano, semestre)
+    semestre INT
 );
 
 /*CREATE TABLE turma (
@@ -37,10 +39,57 @@ CREATE TABLE turma (
     sala INT,
     numTurma INT UNIQUE
 );
+
 INSERT INTO turma (codDisciplina,sala,numTurma)
 	VALUES(2,205,34657);
 INSERT INTO turma (codDisciplina,sala,numTurma)
 	VALUES(4,206,34607);
+
+INSERT INTO professor (nome,unidade,matricula)
+	VALUES("fabio santos","senai_taguatinga_df",454);
+INSERT INTO professor (nome,unidade,matricula)
+	VALUES("caio lucas","senai_taguatinga_df",434);
+    
+INSERT INTO aluno (nome,ano,semestre)
+	VALUES ("lucas",2023,2);
+INSERT INTO aluno (nome,ano,semestre)
+	VALUES ("amanda",2023,2);
+INSERT INTO aluno (nome,ano,semestre)
+	VALUES ("gabriel",2023,2);
+INSERT INTO aluno (nome,ano,semestre)
+	VALUES ("josé",2023,2);
+INSERT INTO aluno (nome,ano,semestre)
+	VALUES ("fabio",2023,2);
+INSERT INTO aluno (nome,ano,semestre)
+	VALUES ("calos",2023,2);
+INSERT INTO aluno (nome,ano,semestre)
+	VALUES ("marcus",2023,2);
+INSERT INTO aluno (nome,ano,semestre)
+	VALUES ("fabricio",2023,2);
+INSERT INTO aluno (nome,ano,semestre)
+	VALUES ("luiza",2023,2);
+INSERT INTO aluno (nome,ano,semestre)
+	VALUES ("daiane",2023,2);
+INSERT INTO aluno (nome,ano,semestre)
+	VALUES ("reginaldo",2023,2);
+INSERT INTO aluno (nome,ano,semestre)
+	VALUES ("felipe",2023,2);
+INSERT INTO aluno (nome,ano,semestre)
+	VALUES ("david",2023,2);
+INSERT INTO aluno (nome,ano,semestre)
+	VALUES ("luiz",2023,2);
+INSERT INTO aluno (nome,ano,semestre)
+	VALUES ("pedro",2023,2);
+INSERT INTO aluno (nome,ano,semestre)
+	VALUES ("carla",2023,2);
+INSERT INTO aluno (nome,ano,semestre)
+	VALUES ("olavo",2023,2);
+INSERT INTO aluno (nome,ano,semestre)
+	VALUES ("caike",2023,2);
+INSERT INTO aluno (nome,ano,semestre)
+	VALUES ("vinicius",2023,2);
+INSERT INTO aluno (nome,ano,semestre)
+	VALUES ("flavio",2023,2);
 
 
 CREATE TABLE inscrito (
