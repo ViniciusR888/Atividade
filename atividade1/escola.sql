@@ -6,14 +6,13 @@ SELECT * FROM professor;
 SELECT * FROM aluno;
 SELECT * FROM turma;
 SHOW TABLES;
-ALTER TABLE turma ADD nomeDisciplina INT; /*adiciona uma nova coluna*/
 
 /*DROP TABLE professor;
 DROP TABLE aluno;
 DROP TABLE turma;
-DROP TABLE professor;
-ALTER TABLE aluno DROP column semestre;*/
+DROP TABLE professor;*/
 
+UPDATE turma SET nomeDisciplina = "JAVA" WHERE codDisciplina=4;
 
 CREATE TABLE professor (
     nome VARCHAR(45),
@@ -40,10 +39,15 @@ CREATE TABLE turma (
     numTurma INT UNIQUE
 );
 
-INSERT INTO turma (codDisciplina,sala,numTurma)
-	VALUES(2,205,34657);
-INSERT INTO turma (codDisciplina,sala,numTurma)
-	VALUES(4,206,34607);
+INSERT INTO turma (sala,numTurma)
+	VALUES(205,34657);
+INSERT INTO turma (sala,numTurma)
+	VALUES(206,34607);
+    
+ALTER TABLE turma ADD nomeDisciplina VARCHAR(50); /*adiciona uma nova coluna*/
+
+UPDATE turma SET nomeDisciplina = "DBA" WHERE codDisciplina=2;
+UPDATE turma SET nomeDisciplina = "JAVA" WHERE codDisciplina=4;
 
 INSERT INTO professor (nome,unidade,matricula)
 	VALUES("fabio santos","senai_taguatinga_df",454);
