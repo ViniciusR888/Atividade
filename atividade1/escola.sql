@@ -103,7 +103,7 @@ CREATE TABLE inscrito (
     fk_turma_codDisciplina INT
 );
 
-INSERT INTO inscrito (fk_aluno_numeroAluno, fk_Turma_codDisciplina)values 
+INSERT INTO inscrito (fk_aluno_numeroAluno, fk_Turma_codDisciplina)VALUES 
 (1,1),
 (2,1),
 (3,1),
