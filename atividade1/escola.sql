@@ -5,6 +5,7 @@ USE escola;
 SELECT * FROM professor;
 SELECT * FROM aluno;
 SELECT * FROM turma;
+SELECT * FROM inscrito;
 SHOW TABLES;
 
 /*DROP TABLE professor;
@@ -95,13 +96,34 @@ INSERT INTO aluno (nome,ano,semestre)
 INSERT INTO aluno (nome,ano,semestre)
 	VALUES ("flavio",2023,2);
 
+SELECT * FROM aluno ORDER BY nome, ano, semestre ASC;/*deixando em ordem alfabetica*/
+
 CREATE TABLE inscrito (
     fk_aluno_numeroAluno INT,
     fk_turma_codDisciplina INT
 );
 
-INSERT INTO inscrito (fk_aluno_numeroAluno, fk_Turma_codDisciplina)
-values (1,1);
+INSERT INTO inscrito (fk_aluno_numeroAluno, fk_Turma_codDisciplina)values 
+(1,1),
+(2,1),
+(3,1),
+(4,1),
+(5,1),
+(6,2),
+(7,2),
+(8,2),
+(9,2),
+(10,2),
+(11,1),
+(12,1),
+(13,1),
+(14,1),
+(15,1),
+(16,2),
+(17,2),
+(18,2),
+(19,2),
+(20,2);
  
 ALTER TABLE turma ADD CONSTRAINT FK_turma_2
     FOREIGN KEY (fk_professor_matricula)
