@@ -52,10 +52,16 @@ JOIN Pedidos ON Pedidos.ClienteID = Clientes.CLienteID WHERE ValorTotal > 200 OR
 SELECT Clientes.Nome FROM Clientes
 JOIN Pedidos ON Pedidos.ClienteID = Clientes.ClienteID WHERE Nome LIKE '%o'; /*ATIVIDADE 11*/
 
-SELECT *
-FROM Produtos
-JOIN Clientes
-ON ;/*ATIVIDADE 12*/
+/*ATIVIDADE 12*/
+SELECT Clientes.nome, Produtos.NomeProduto FROM Clientes 
+JOIN Pedidos ON  Clientes.ClienteID= Pedidos.PedidoID
+JOIN ItensPedido ON Pedidos.PedidoID = ItensPedido.PedidoID
+JOIN Produtos ON  Produtos.ProdutoID = ItensPedido.ProdutoID;
+
+select * from Clientes;
+select * from ItensPedido;
+select * from Pedidos;
+select * from Produtos;
 
 SELECT * FROM Clientes
 LEFT JOIN Pedidos
@@ -161,10 +167,9 @@ SELECT * FROM Produtos WHERE Preco >=10 ORDER BY Preco DESC LIMIT 5;/*ATIVIDADE 
 
 SELECT * FROM Produtos ORDER BY Preco ASC LIMIT 5;/*ATIVIDADE 9*/
 
-SELECT *
-FROM Produtos
-JOIN Pedidos
-ON,/*ATIVIDADE 10*/
+SELECT * FROM Produtos JOIN ItensPedido
+ON ItensPedido.ProdutoID = Produtos.ProdutoId ORDER BY PedidoID ASC LIMIT 2;/*ATIVIDADE 10***/
+
 
 INSERT INTO Produtos (NomeProduto, Preco) VALUES
     ('Produto 1', 10.99),
@@ -188,12 +193,28 @@ SELECT Pedidos.PedidoID,Pedidos.ValorTotal,Pedidos.DataPedido,Clientes.ClienteID
 FROM Pedidos JOIN Clientes
 ON Pedidos.ClienteID = Clientes.ClienteID; /*ATIVIDADE 5*/
 
-SELECT * FROM Pedidos WHERE DataPedido between ;/*ATIVIDADE 8*/
-/ itenspedido produtos/// idpedido,datapedido,valortotal,nomedoproduto,quantidade;
-SELECT *
+SELECT * FROM Pedidos WHERE DataPedido BETWEEN "2023-09-27" AND "2023-10-08" ORDER BY DataPedido ASC;/*ATIVIDADE 8*/
+
+/*ATIVIDADE 17 e ATIVIDADE 18*/
+SELECT Pedidos.PedidoID, Pedidos.ValorTotal, ItensPedido.Quantidade, Produtos.NomeProduto, Clientes.Nome
+FROM ItensPedido RIGHT JOIN pedidos ON ItensPedido.PedidoID = Pedidos.PedidoID 
+JOIN Produtos ON ItensPedido.ProdutoID = Produtos.ProdutoID 
+JOIN Clientes ON Pedidos.ClienteID = Clientes.ClienteID ORDER BY ValorTotal DESC LIMIT 5;
+
+/*ATIVIDADE 15*/
+SELECT Clientes.ClienteID, Clientes.nome ,Pedidos.PedidoID, Pedidos.DataPedido, Produtos.NomeProduto,Produtos.preco
 FROM Pedidos
-JOIN Itenspedido
-ON ItensPedido.PedidoID= Pedidos.PedidoID;
+JOIN Produtos ON Pedidos.PedidoID = Produtos.ProdutoID
+JOIN Clientes ON Pedidos.PedidoID = Clientes.ClienteID
+WHERE DataPedido
+BETWEEN '2023-09-01' AND '2023-10-29'
+LIMIT 7;
+
+
+select * from pedidos;
+select * from produtos;
+select * from ItensPedido;
+select * from Clientes;
 
 INSERT INTO Pedidos (ClienteID, DataPedido, ValorTotal) VALUES
     (1, '2023-09-01', 150.00),
