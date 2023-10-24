@@ -1,16 +1,61 @@
-create database livraria;
+CREATE DATABASE livraria;
 use livraria;
+DROP DATABASE livraria;
 
 
-CREATE TABLE Autores (
-    AutorID INT PRIMARY KEY,
-    NomeAutor VARCHAR(100) NOT NULL,
-    Nacionalidade VARCHAR(50)
-);
+SHOW TABLES;
+SELECT * FROM Livros;
+SELECT * FROM Pedidos;
+SELECT * FROM Clientes;
+SELECT * FROM ItensPedido;
 
 
+ALTER TABLE Pedidos DROP FOREIGN KEY pedidos_ibfk_1;/*****/
+ALTER TABLE Pedidos DROP LivroID;
+
+ALTER TABLE Pedidos DROP Quantidade;/*****/
+
+CREATE TABLE ItensPedido (
+	itensID int auto_increment,
+    PedidoID int,
+    LivroID int,
+    Quantidade int,
+    PRIMARY KEY (itensID),
+    FOREIGN KEY(PedidoID) REFERENCES Pedidos(PedidoID),
+    FOREIGN KEY (LivroID) REFERENCES Livros(LivroID)
+    );
+
+    INSERT INTO itensPedido (PedidoID,LivroID,Quantidade)
+    VALUES
+    (16,1,3),
+    (17,2,2),
+    (18,3,4),
+    (19,4,1),
+    (20,5,2),
+    (21,6,3),
+    (22,7,2),
+    (23,8,1),
+    (24,9,4),
+    (25,10,1),
+    (26,11,2),
+    (27,12,3),
+    (28,13,1),
+    (29,14,2),
+    (30,15,5),
+    (31,1,2),
+    (32,2,3),
+    (33,3,1),
+    (34,4,4),
+    (35,5,2),
+    (36,6,3),
+    (37,7,1),
+    (38,8,2),
+    (39,9,3),
+    (40,10,1);
+
+    
 CREATE TABLE Livros (
-    LivroID INT PRIMARY KEY,
+    LivroID INT PRIMARY KEY auto_increment,
     Titulo VARCHAR(200) NOT NULL,
     AnoPublicacao INT,
     AutorID INT,
@@ -21,7 +66,7 @@ CREATE TABLE Livros (
 
 
 CREATE TABLE Pedidos (
-    PedidoID INT PRIMARY KEY,
+    PedidoID INT PRIMARY KEY auto_increment,
     DataPedido DATE,
     ValorTotal DECIMAL(10, 2),
     LivroID INT,
@@ -31,12 +76,17 @@ CREATE TABLE Pedidos (
 
 
 CREATE TABLE Clientes (
-    ClienteID INT PRIMARY KEY,
+    ClienteID INT PRIMARY KEY auto_increment,
     NomeCliente VARCHAR(100) NOT NULL,
     Email VARCHAR(100),
     Telefone VARCHAR(15)
 );
 
+CREATE TABLE Autores (
+    AutorID INT PRIMARY KEY auto_increment,
+    NomeAutor VARCHAR(100) NOT NULL,
+    Nacionalidade VARCHAR(50)
+);
 
 INSERT INTO Clientes (ClienteID, NomeCliente, Email, Telefone)
 VALUES
