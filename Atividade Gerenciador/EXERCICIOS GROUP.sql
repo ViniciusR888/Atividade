@@ -15,7 +15,15 @@ CREATE TABLE Clientes (
     Email VARCHAR(100),
     Telefone VARCHAR(15)
 );
+
+CREATE TABLE TipoCliente (/*ATIVIDADE 1 GROUP*/
+	Idtipo INT PRIMARY KEY AUTO_INCREMENT,
+	Tipo VARCHAR(50)
+);
+
 ALTER TABLE CLientes ADD Idtipo INT; /*ATIVIDADE 2 GROUP*/
+
+INSERT INTO TipoCliente (Tipo) VALUES("JURIDICA"),("FISICA");/*ATIVIDADE 3 GROUP*/
 
 UPDATE CLientes SET Idtipo = 2 WHERE Nome LIKE "%a";/*ATIVIDADE 4 GROUP*/
 UPDATE CLientes SET Idtipo = 1 WHERE Nome LIKE "%o";
@@ -23,16 +31,25 @@ UPDATE CLientes SET Idtipo = 1 WHERE Nome LIKE "%o";
 SELECT ClienteID,Nome,Email,Telefone FROM Clientes; /*ATIVIDADE 5 GROUP*/
 
 SELECT Nome, Tipo FROM Clientes LEFT JOIN TipoCliente ON Clientes.Idtipo = TipoCliente.idTipo;/*ATIVIDADE 6 GROUP*/
+
 SELECT Nome, Tipo FROM Clientes  LEFT JOIN TipoCliente ON Clientes.Idtipo = TipoCliente.idTipo WHERE Tipo is null;/*ATIVIDADE 7 GROUP*/
+
 SELECT Nome, Email, Telefone, tipo FROM Clientes  LEFT JOIN TipoCliente ON Clientes.Idtipo = TipoCliente.idTipo;/*ATIVIDADE 8 GROUP*/
+
 SELECT * FROM Pedidos WHERE DataPedido BETWEEN "2023-10-01" AND "2023-10-31";/*ATIVIDADE 10 GROUP*/
+
 SELECT  SUM(ValorTotal) from Pedidos;/*ATIVIDADE 11 GROUP*/
 
-CREATE TABLE TipoCliente (/*ATIVIDADE 1 GROUP*/
-	Idtipo INT PRIMARY KEY AUTO_INCREMENT,
-	Tipo VARCHAR(50)
-);
-INSERT INTO TipoCliente (Tipo) VALUES("JURIDICA"),("FISICA");/*ATIVIDADE 3 GROUP*/
+SELECT PedidoID, DataPedido, Nome FROM Pedidos join Clientes on Pedidos.ClienteID = Clientes.ClienteID;/*ATIVIDADE 12 GROUP*/
+
+SELECT Pedidos.CLienteID, Nome,SUM(ValorTotal) AS Total FROM Clientes JOIN Pedidos ON Clientes.ClienteID = Pedidos.ClienteID group by Pedidos.ClienteID;/*ATIVIDADE 13 GROUP*/
+
+SELECT Produtos.ProdutoID, NomeProduto, SUM(Quantidade) FROM ItensPedido JOIN Produtos ON ItensPedido.ProdutoID = Produtos.ProdutoID 
+WHERE Quantidade > 1 group by NomeProduto ORDER BY Quantidade ASC;/*ATIVIDADE 14 GROUP*/
+
+SELECT Clientes.Nome, SUM(ItensPedido.Quantidade) AS Quantidade FROM ItensPedido JOIN Pedidos ON ItensPedido.PedidoId = Pedidos.PedidoID 
+JOIN Clientes ON Pedidos.ClienteID = CLientes.CLienteID GROUP BY Clientes.nome;/*ATIVIDADE 15 GROUP*/
+
 
 -- Criar a tabela 'Pedidos'
 CREATE TABLE Pedidos (
@@ -60,38 +77,10 @@ CREATE TABLE ItensPedido (
     FOREIGN KEY (ProdutoID) REFERENCES Produtos(ProdutoID)
 );
 
-
-select * from clientes;
-select * from produtos;
-select * from pedidos;
-select * from ItensPedido;
-
-SELECT * FROM Clientes ORDER BY Nome ASC; /*ATIVIDADE 1*/
-
-SELECT Clientes.Nome, Pedidos.ValorTotal FROM Clientes
-JOIN Pedidos ON Pedidos.ClienteID = Clientes.CLienteID WHERE ValorTotal > 200 ORDER BY Nome ASC;/*ATIVIDADE 6 E ATIVIDADE 7*/
-
-SELECT Clientes.Nome FROM Clientes
-JOIN Pedidos ON Pedidos.ClienteID = Clientes.ClienteID WHERE Nome LIKE '%o'; /*ATIVIDADE 11*/
-
-/*ATIVIDADE 12*/
-SELECT Clientes.nome, Produtos.NomeProduto FROM Clientes 
-JOIN Pedidos ON  Clientes.ClienteID= Pedidos.PedidoID
-JOIN ItensPedido ON Pedidos.PedidoID = ItensPedido.PedidoID
-JOIN Produtos ON  Produtos.ProdutoID = ItensPedido.ProdutoID;
-
 select * from Clientes;
 select * from ItensPedido;
 select * from Pedidos;
 select * from Produtos;
-
-SELECT * FROM Clientes
-LEFT JOIN Pedidos
-ON Pedidos.ClienteID = Clientes.ClienteID WHERE PedidoID is null; /*ATIVIDADE 13*/
-
-SELECT Nome FROM Clientes WHERE Nome LIKE 'A%';/*ATIVIDADE 14*/
-
-SELECT Nome FROM Clientes WHERE Nome LIKE '%arc%';/*ATIVIDADE 16*/
 
 INSERT INTO Clientes (Nome, Email, Telefone) VALUES
     ('João Silva', 'joao@email.com', '(11) 1234-5678'),
@@ -185,14 +174,6 @@ INSERT INTO Clientes (Nome, Email, Telefone) VALUES
     ('Luiz Gustavo Carvalho', 'luizgustavo@email.com', '(89) 0987-6543'),
     ('Estela Ferreira', 'estela@email.com', '(90) 9876-5432');
 
-SELECT * FROM Produtos WHERE Preco >=10 ORDER BY Preco DESC LIMIT 5;/*ATIVIDADE 2*/
-
-SELECT * FROM Produtos ORDER BY Preco ASC LIMIT 5;/*ATIVIDADE 9*/
-
-SELECT * FROM Produtos JOIN ItensPedido
-ON ItensPedido.ProdutoID = Produtos.ProdutoId ORDER BY PedidoID ASC LIMIT 2;/*ATIVIDADE 10***/
-
-
 INSERT INTO Produtos (NomeProduto, Preco) VALUES
     ('Produto 1', 10.99),
     ('Produto 2', 15.50),
@@ -204,34 +185,6 @@ INSERT INTO Produtos (NomeProduto, Preco) VALUES
     ('Produto 8', 8.75),
     ('Produto 9', 18.50),
     ('Produto 10', 25.99);
-
-
-SELECT * FROM Pedidos WHERE ValorTotal BETWEEN 120 AND 150 ORDER BY ValorTotal ASC LIMIT 1;/*ATIVIDADE 3*/
-
-SELECT * FROM Pedidos JOIN Clientes
-ON Pedidos.ClienteID = Clientes.ClienteID;/*ATIVIDADE 4*/
-
-SELECT Pedidos.PedidoID,Pedidos.ValorTotal,Pedidos.DataPedido,Clientes.ClienteID,Clientes.nome
-FROM Pedidos JOIN Clientes
-ON Pedidos.ClienteID = Clientes.ClienteID; /*ATIVIDADE 5*/
-
-SELECT * FROM Pedidos WHERE DataPedido BETWEEN "2023-09-27" AND "2023-10-08" ORDER BY DataPedido ASC;/*ATIVIDADE 8*/
-
-/*ATIVIDADE 17 e ATIVIDADE 18*/
-SELECT Pedidos.PedidoID, Pedidos.ValorTotal, ItensPedido.Quantidade, Produtos.NomeProduto, Clientes.Nome
-FROM ItensPedido RIGHT JOIN pedidos ON ItensPedido.PedidoID = Pedidos.PedidoID 
-JOIN Produtos ON ItensPedido.ProdutoID = Produtos.ProdutoID 
-JOIN Clientes ON Pedidos.ClienteID = Clientes.ClienteID ORDER BY ValorTotal DESC LIMIT 5;
-
-/*ATIVIDADE 15*/
-SELECT Clientes.ClienteID, Clientes.nome ,Pedidos.PedidoID, Pedidos.DataPedido, Produtos.NomeProduto,Produtos.preco
-FROM Pedidos
-JOIN Produtos ON Pedidos.PedidoID = Produtos.ProdutoID
-JOIN Clientes ON Pedidos.PedidoID = Clientes.ClienteID
-WHERE DataPedido
-BETWEEN '2023-09-01' AND '2023-10-29'
-LIMIT 7;
-
 
 select * from pedidos;
 select * from produtos;
