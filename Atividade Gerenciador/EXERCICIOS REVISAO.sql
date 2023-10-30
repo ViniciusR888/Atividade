@@ -10,6 +10,36 @@ SELECT * FROM Produtos;
 SELECT * FROM ItensPedido;
 
 -- ATIVIDADE REVISÃO --
+SELECT PedidoID, DataPedido FROM Pedidos; -- ATIVIDADE 1 --
+SELECT ClienteID,COUNT(ClienteID) AS NumPedidos FROM Pedidos group by ClienteID; -- ATIVIDADE 2 --
+SELECT ClienteID, COUNT(ClienteID) AS NumPedidos FROM Pedidos GROUP BY (ClienteID) HAVING ClienteID > 2; -- ATIVIDADE 3 --
+SELECT Min(ValorTotal) AS PedidoValorMinimo,Max(ValorTotal) AS PedidoValorMinimo FROM Pedidos ; -- ATIVIDADE 4 --
+SELECT ROUND(AVG(ValorTotal),2) AS MediaValorPedidos FROM Pedidos; -- ATIVIDADE 5 --
+SELECT SUBSTRING(NomeProduto,1,4) AS Os_Quatro_Iniciais_Caracteres_De_Nomes FROM Produtos;-- ATIVIDADE 6 --
+SELECT CURRENT_DATE() AS Data_Atual; -- ATIVIDADE 7 --
+SELECT DATEDIFF(CURRENT_DATE,DataPedido) AS Dias_Diferença FROM Pedidos; -- ATIVIDADE 8 --
+SELECT * FROM Pedidos WHERE DataPedido > DATE_SUB(CURRENT_DATE, INTERVAL 20 DAY); -- ATIVIDADE 9 --
+SELECT Clientes.ClienteID, Clientes.Nome FROM Pedidos RIGHT JOIN CLientes ON Pedidos.CLienteID = Clientes.ClienteID WHERE PedidoID IS NULL; -- ATIVIDADE 10 --
+SELECT * FROM Pedidos JOIN Clientes ON Pedidos.ClienteID = Clientes.ClienteId WHERE ValorTotal >= 200; -- ATIVIDADE 11 --
+SELECT ProdutoID, SUM(Quantidade) FROM ItensPedido GROUP BY ProdutoID; -- ATIVIDADE 12 --
+SELECT * FROM Pedidos WHERE DataPedido LIKE "%2023-09%"; -- ATIVIDADE 13 --
+SELECT ClienteID FROM Pedidos GROUP BY ClienteID HAVING PedidoID ORDER BY PedidoID ASC; -- ATIVIDADE 14 -- **
+SELECT Clientes.Nome, SUM(ValorTotal) FROM Pedidos JOIN Clientes ON Pedidos.ClienteID = CLientes.ClienteID GROUP BY Pedidos.ClienteID; -- ATIVIDADE 15 --
+SELECT Clientes.CLienteID, CLientes.Nome, Pedidos.PedidoID FROM Pedidos -- ATIVIDADE 16 --
+JOIN ItensPedido ON ItensPedido.PedidoID = Pedidos.PedidoID 
+JOIN Clientes ON Pedidos.ClienteID = CLientes.ClienteID 
+JOIN Produtos ON ItensPedido.ProdutoID = Produtos.ProdutoID WHERE Produtos.Preco > 18; 
+
+SELECT * FROM Pedidos 
+JOIN ItensPedido ON ItensPedido.PedidoID = Pedidos.PedidoID 
+JOIN Clientes ON Pedidos.ClienteID = CLientes.ClienteID 
+JOIN Produtos ON ItensPedido.ProdutoID = Produtos.ProdutoID WHERE Produtos.Preco > 18; -- ATIVIDADE 16 --
+
+-- ATIVIDADE EXTRA --
+select * from pedidos;
+
+SELECT PedidoID,DataPedido, ValorTotal,ClienteID FROM Pedidos WHERE ValorTotal < (SELECT ROUND(AVG(ValorTotal),2) FROM Pedidos);
+ 
 
 -- Criar a tabela 'Clientes'
 CREATE TABLE Clientes (
