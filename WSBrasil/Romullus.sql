@@ -1,6 +1,7 @@
 CREATE DATABASE Romullus;
 select * from sys.tables;
 
+
 USE Romullus;
 
 ------------------------------------------------------------------------------------
@@ -90,6 +91,8 @@ INSERT INTO Cidade (Nome_cidade,fk_UF_ID)VALUES
 ('Blumenau',10),('Florianópolis',10),('Joinville',10);
 
 SELECT * FROM Cidade;
+
+
 ---------------------------------------------------------------------------------------------
 CREATE TABLE Bairro (
     ID INT PRIMARY KEY identity(1,1),
@@ -192,6 +195,86 @@ INSERT INTO Imovel (Qtd_vaga, Qtd_quarto,Qtd_suite,Qtd_banheiro,Comodidade,Area_
 (1, 2, 1, 1, 'Bicicletário', 90, 250000.00, 'Condomínio sustentável',1,1,14),
 (2, 3, 2, 2, 'Quadra Poliesportiva', 170, 480000.00, 'Área de lazer completa',1,2,15),
 (1, 1, 1, 1, 'Sala de Estudo', 75, 180000.00, 'Ideal para estudantes',4,1,16);
+GO
+
+CREATE VIEW vw_quantidaCidade
+AS
+SELECT 
+c.Nome_cidade,
+COUNT(C.Nome_cidade) AS QuantidadeDeImoveis--, i.Area_util
+FROM Imovel I 
+JOIN Endereco E 
+ON I.fk_Endereco_ID = E.ID
+JOIN Bairro B 
+ON E.fk_Bairro_ID = B.ID
+JOIN Cidade C 
+ON B.fk_Cidade_ID = C.ID
+group BY C.Nome_cidade;
+
+SELECT * FROM vw_quantidaCidade where vw_quantidaCidade.Nome_cidade = 'taguatinga';
+
+--------------------------
+CREATE VIEW vw_detalhesImovell
+as
+select E.ID,I.Qtd_banheiro,I.Qtd_quarto,I.Qtd_suite,I.Qtd_vaga,I.Comodidade,I.Area_util,I.Valor_imovel,I.Observacoes,
+E.Logradouro,E.Numero,E.Complemento,B.Nome_bairro
+from imovel as I
+join endereco as E  on I.fk_endereco_id = E.ID
+join bairro as B on E.fk_bairro_id = B.id 
+join cidade as C on B.fk_cidade_id = C.id; 
+
+select * from vw_detalhesImovell;
+----------------------------------------
+CREATE VIEW vw_quantiTipoAnuncio AS
+select Nome_Tipo_Anuncio,COUNT(TA.Nome_Tipo_Anuncio) AS QuantiTipo
+from Imovel I
+JOIN Endereco E ON I.fk_Endereco_ID = E.ID
+JOIN Bairro B ON E.fk_Bairro_ID = B.ID
+JOIN Cidade C ON B.fk_Cidade_ID = C.ID
+JOIN TipoAnuncio TA ON I.fk_TipoAnuncio_ID = TA.ID group by TA.Nome_Tipo_Anuncio;
+
+select * from vw_quantiTipoAnuncio;
+----------------------------
+CREATE VIEW vw_valorTotalTipo AS
+select Nome_Tipo_Anuncio,COUNT(TA.Nome_Tipo_Anuncio) AS QuantiTipo,SUM(I.Valor_imovel) AS ValorTotal
+from Imovel I
+JOIN Endereco E ON I.fk_Endereco_ID = E.ID
+JOIN Bairro B ON E.fk_Bairro_ID = B.ID
+JOIN Cidade C ON B.fk_Cidade_ID = C.ID
+JOIN TipoAnuncio TA ON I.fk_TipoAnuncio_ID = TA.ID group by TA.Nome_Tipo_Anuncio;
+
+SELECT * FROM vw_valorTotalTipo where Nome_Tipo_Anuncio = 'Venda';--'Aluguel'
+--------------------------------------------
+CREATE PROCEDURE DelImoveisId 
+@IdImovel INT
+AS
+BEGIN
+--DELETE FROM Imovel where 
+SELECT * FROM Imovel 
+JOIN Endereco ON Imovel
+JOIN Bairro ON Endereco
+JOIN Cidade ON Bairro
+
+go
+CREATE PROCEDURE TIPO
+@idtipo INT
+AS
+BEGIN
+	SELECT * FROM Imovel JOIN TipoImovel ON Imovel.fk_TipoImovel_ID = TipoImovel.ID WHERE fk_TipoImovel_ID = @idtipo;
+END
+
+EXEC TIPO @idtipo = 2;
+
+go
+
+CREATE PROCEDURE Tipoanuncioss
+@tipo INT
+AS
+BEGIN
+	SELECT  * FROM Imovel JOIN TipoAnuncio ON Imovel.fk_TipoAnuncio_ID = TipoAnuncio.ID WHERE fk_TipoAnuncio_ID = @tipo; 
+END
+
+EXEC Tipoanuncioss @tipo = 1;
 
 
 -------------------------------------------------------------------------------------------------
