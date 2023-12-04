@@ -1,7 +1,6 @@
 CREATE DATABASE Romullus;
 select * from sys.tables;
 
-
 USE Romullus;
 
 ------------------------------------------------------------------------------------
@@ -254,8 +253,17 @@ SELECT * FROM Imovel
 JOIN Endereco ON Imovel
 JOIN Bairro ON Endereco
 JOIN Cidade ON Bairro
+END
+----------------------------------------------
+SELECT ID, Area_util,Valor_imovel,FORMAT(ROUND((CAST(Valor_imovel as INT) / Area_util),2),'c','pt-br') AS 'Valor M²' FROM Imovel;
 
-go
+----------------------------------------------
+SELECT * FROM Imovel I JOIN Endereco E ON I.fk_Endereco_ID = E.ID JOIN Bairro B ON E.fk_Bairro_ID = B.ID JOIN Cidade C ON B.fk_Cidade_ID = C.ID ;
+SELECT ROUND(AVG(I.Valor_imovel),2) AS MEDIA from Imovel I;
+CREATE vw_MediaCadaEstado AS
+WITH MediaImovel AS (SELECT * FROM Imovel I JOIN Endereco E ON
+
+----------------------------------------------
 CREATE PROCEDURE TIPO
 @idtipo INT
 AS
