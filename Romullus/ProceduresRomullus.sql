@@ -1,38 +1,4 @@
-IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'BancoRomullus') -- CRIA BANCO DE DADOS
-  CREATE DATABASE BancoRomullus;
-  ELSE
-  PRINT '[ERRO!] Esse Banco Já Existe';
-
-USE BancoRomullus;
-
-select * from tipocontato;
-SELECT * FROM contatosite;
-select * from sys.databases;
-select * from sys.tables;
-
-------------------------------------------------------------------------------------
--- CRIA TABELA SE NÃO EXISTIR --
-
-IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'tipocontato')
-  CREATE TABLE tipocontato (
-	id int primary key identity(1,1),
-	nome varchar(80)not null);
-ELSE PRINT '[ERRO] Tabela Já Criada!';
-
-------------------------------------------------------------------------------------
--- CRIA TABELA SE NÃO EXISTIR --
-
-IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'contatosite')
-  CREATE TABLE contatosite (
-	id int primary key identity(1,1),
-	nome varchar(80) not null,
-	email varchar(80) not null,
-	mensagem text not null,
-	datahora datetime not null,
-	fk_tipocontato_id int
-);ELSE PRINT '[ERRO] Tabela Já Criada!';
-GO
--------------------------------------------------------------------------------------
+ -------------------------------------------------------------------------------------
 -- INSERE TIPO DE CONTATO --
 
 CREATE PROCEDURE InserirDados
@@ -101,13 +67,32 @@ SELECT ContatoSite.Nome,ContatoSite.Email,ContatoSite.Mensagem,
 ContatoSite.DataHora, TipoContato.nome AS Tipo FROM ContatoSite
 LEFT JOIN TipoContato ON ContatoSite.fk_TipoContato_Id = TipoContato.Id; --where ContatoSite.Id = @id
 END
-EXEC consulta ;
+EXEC consulta;
 
 drop procedure Consulta;
 
----------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+-- CONSULTA DE UM IMOVEL POR TIPO DE IMOVEL (apartamento,casa...) --
 
-ALTER TABLE ContatoSite ADD CONSTRAINT FK_ContatoSite_2
-    FOREIGN KEY (fk_TipoContato_Id)
-    REFERENCES TipoContato (Id)
-    ON DELETE CASCADE;
+CREATE PROCEDURE TIPO
+@idtipo INT
+AS
+BEGIN
+	SELECT * FROM Imovel JOIN TipoImovel ON Imovel.fk_TipoImovel_ID = TipoImovel.ID WHERE fk_TipoImovel_ID = @idtipo;
+END
+
+EXEC TIPO @idtipo = 2;--(apartamento)--
+
+-----------------------------------------------------------------------------------------------
+-- CONSULTA DE UM TIPO DE ANUNCIO (venda,aluguel...) --
+
+CREATE PROCEDURE Tipoanuncioss
+@tipo INT
+AS
+BEGIN
+	SELECT  * FROM Imovel JOIN TipoAnuncio ON Imovel.fk_TipoAnuncio_ID = TipoAnuncio.ID WHERE fk_TipoAnuncio_ID = @tipo; 
+END
+
+EXEC Tipoanuncioss @tipo = 1;--venda --
+
+-------------------------------------------------------------------------------------------------
